@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+
+  postgres:
+    container_name: postgres-wefox
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: wefox
+      PGDATA: /data/postgres
+    ports:
+      - "5437:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
