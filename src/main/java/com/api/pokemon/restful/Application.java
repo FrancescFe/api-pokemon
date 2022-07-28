@@ -31,10 +31,10 @@ public class Application {
         }
     }
 
-    public static ArrayList<Pokemon> findFirstGenPokemonData() {
+    private static ArrayList<Pokemon> findFirstGenPokemonData() {
         PokeApi pokeApi = new PokeApiClient();
         ArrayList<Pokemon> pokemonList = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 151; i++) {
             Pokemon pokemon = new Pokemon();
             pokemon.setId((long) i);
             pokemon.setName(pokeApi.getPokemon(i).getName());

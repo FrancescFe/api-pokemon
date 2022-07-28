@@ -28,14 +28,19 @@ public class PokemonRestController {
         return pokemonService.getPokemonExperience();
     }
 
-    @PutMapping(path = "/{id}")
-    public Pokemon update(@PathVariable("id") Long pokemonId, @RequestBody Pokemon pokemon) {
-        return pokemonService.updatePokemon(pokemonId, pokemon);
-    }
-
     @PostMapping
     public Pokemon create(@RequestBody Pokemon pokemon) {
         return pokemonService.createPokemon(pokemon);
+    }
+
+    @GetMapping
+    public Iterable<Pokemon> read(){
+        return pokemonService.readPokemon();
+    }
+
+    @PutMapping(path = "/{id}")
+    public Pokemon update(@PathVariable("id") Long pokemonId, @RequestBody Pokemon pokemon) {
+        return pokemonService.updatePokemon(pokemonId, pokemon);
     }
 
     @DeleteMapping(path = "/{id}")

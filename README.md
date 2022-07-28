@@ -8,7 +8,7 @@ To begin with, I will describe two problems I have found in the settings of work
 
 ## Deprecated PokeAPI/pokekotlin maven dependency
 
-After building Docker container, the Pokekotlin dependency of `pom.xml` was unable to find by maven. After research in google and ask a friend for help we found that the dependency was deprecated due to a security issue. So I had to update `pom.xml` with the latest Pokekotlin dependency.
+After building Docker container, the Pokekotlin dependency of `pom.xml` was unable to find by maven. After research in google and ask a friend for help we found that the dependency was deprecated due to a security issue. So I had to update `pom.xml` with the latest Pokekotlin dependency available in GitHub.
 
 Deprecated dependency:
 ```
@@ -31,11 +31,26 @@ For the same reason I had to set `server.port=8081` in `resources/application.pr
 
 # Approach to solution
 
-Secondly, I'll explain my approach to solution to the exercise.
+Secondly, I'll explain my approach to solution to the exercise. I have tried to take advantage as much as possible of dependencies provided in the initial package like lombok and jpa to reduce the verbosity of the code and to save me some work (like running sql queries).
+
+## Project Architectural Pattern
+
+I have followed a Model-View-Controller pattern for the API. So I deleted the given `PokemonApi.java` and created several packages with their classes:
+- Application.java: contains the main method of our SpringBootApplication. If the DB is empty, it also initialises the data in the DB.
+- Model Package: to define our entity model. JPA works hard for us, and we don't need a sql query.
+- Repository Package: to define some methods for data access. Really very simplified thanks to JPA.
+- Service Package: contains business logic.
+- Controller Package: to define our endpoints and controlling the user interaction with MVC application.
+- Configuration Package: to set some basic security requirements.
+
+## Database
+
+I access the provided PokeAPI to recover only the data I want/need and create a simple DB formed by one table with 1 primary key and 5 columns.
+The DB is filled with some data about Pokemon first gen. But only is created and filled if it is empty.
 
 ## Security
 
-Each endpoint require basic authorization (except endpoint for top 3 heaviest Pokemon because the challenge required it) so I have set appropriately `resources/application.properties`:
+Each endpoint require basic authorization (except endpoint for top 3 heaviest Pokemon because the challenge required it) so I have set appropriately in `resources/application.properties`:
 ```
 spring.security.user.name=wefox
 spring.security.user.password=1234

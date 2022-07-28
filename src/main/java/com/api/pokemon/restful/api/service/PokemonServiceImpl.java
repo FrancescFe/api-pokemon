@@ -14,13 +14,28 @@ public class PokemonServiceImpl implements PokemonService {
     PokemonRepository pokemonRepository;
 
     @Override
-    public Pokemon insert(Pokemon pokemon) {
+    public List<Pokemon> getPokemonByName(String pokemonName) {
+        return pokemonRepository.findByNameStartingWith(pokemonName);
+    }
+
+    @Override
+    public List<Pokemon> getPokemonHeaviest() {
+        return pokemonRepository.findTop3ByOrderByWeightDesc();
+    }
+
+    @Override
+    public List<Pokemon> getPokemonExperience() {
+        return pokemonRepository.findTop3ByOrderByExperienceDesc();
+    }
+
+    @Override
+    public Pokemon createPokemon(Pokemon pokemon) {
         return pokemonRepository.save(pokemon);
     }
 
     @Override
-    public List<Pokemon> getPokemonByName(String pokemonName) {
-        return pokemonRepository.findByNameStartingWith(pokemonName);
+    public Iterable<Pokemon> readPokemon() {
+        return pokemonRepository.findAll();
     }
 
     @Override
@@ -38,20 +53,5 @@ public class PokemonServiceImpl implements PokemonService {
     public boolean delete(Long pokemonId) {
         pokemonRepository.deleteById(pokemonId);
         return pokemonRepository.findById(pokemonId).isEmpty();
-    }
-
-    @Override
-    public List<Pokemon> getPokemonHeaviest() {
-        return pokemonRepository.findTop3ByOrderByWeightDesc();
-    }
-
-    @Override
-    public List<Pokemon> getPokemonExperience() {
-        return pokemonRepository.findTop3ByOrderByExperienceDesc();
-    }
-
-    @Override
-    public Pokemon createPokemon(Pokemon pokemon) {
-        return pokemonRepository.save(pokemon);
     }
 }
