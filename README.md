@@ -47,6 +47,8 @@ I have followed a Model-View-Controller pattern for the API. So I deleted the gi
 
 I access the provided PokeAPI to recover only the data I want/need and create a simple DB formed by one table with 1 primary key and 5 columns.
 The DB is filled with some data about Pokemon first gen. But only is created and filled if it is empty.
+If DB is empty, SpringBootApplication needs about 45 seconds to get started (in my laptop).
+If DB already exists, SpringBootApplication needs about 4 seconds to get started (in my laptop).
 
 ## Security
 
@@ -64,11 +66,11 @@ Then, I'll indicate possible improvements to implement in my code.
 The current `create` method of `PokemonRestController.java` not only insert new Pokemon into DB but also overwrites exiting data (if you choose an existing `id` for `RequestBody`). An improvement could be to assess whether data already exists and not to allow the insert if it exists.
 
 ### Implement unit testing
-The endpoints and methods have been tested via debug and manually so an improvement could be implement unit tests. For example, using JUnit 5.
+The endpoints and methods have been tested via debug and manually so an improvement could be implementing unit tests. For example, using JUnit 5.
 
 # Wefox Java Challenge
 
->Finally, I have kept the original challenge statement here:
+>Finally, I have kept the original challenge statement below, and I post some images and code to show my results:
 
 - This is a Spring Boot Application with all needed dependencies included in the POM file.
 - Feel free to change the project architecture or any relevant configuration.
@@ -80,14 +82,40 @@ The endpoints and methods have been tested via debug and manually so an improvem
 1 - Implement REST API to retrieve:
 
 - Pokemons whose name starts with {parameter}
+
+![img.png](readme_resources/img_1_1.png)
 - The 3 heaviest Pokemons
+
+![img.png](readme_resources/img_1_2.png)
 - the 3 Pokemons with more base experience
 
-2 - Configure the heaviest pokemons endpoint to avoid spring security.
+![img.png](readme_resources/img_1_3.png)
 
-3 - Create a sql script to create the necessary tables and column in the DB to store the pokemons information.
+2 - Configure the heaviest pokemons endpoint to avoid spring security.
+> I placed this line in `SecurityConfiguration.java`
+```
+web.ignoring().antMatchers("/api/v2/pokemon/heaviest");
+```
+
+3 - Create a sql script to create the necessary tables and column in the DB to store the pokemon information.
+> I solved this part implementing the method `findFirstGenPokemonData()` in `Application.java` and using JPA annotations in `Pokemon.java`.
 
 4 - Create remaining CRUD endpoints for pokemons using DB entities.
+> Create
+
+![img.png](readme_resources/img_4_1.png)
+
+> Read
+
+![img.png](readme_resources/img_4_2.png)
+
+> Update
+
+![img.png](readme_resources/img_4_3.png)
+
+> Delete
+
+![img.png](readme_resources/img_4_4.png)
 
 ### Infrastructure
 
