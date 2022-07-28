@@ -1,12 +1,12 @@
-# Abstract
+# 📝 Abstract 📝
 
-This is my approach to solution of Wefox Java Challenge for juniors. This challenge was to develop a Pokemon api rest from a given Docker container.
+This is my approach to solution of Wefox Java Challenge for juniors. This challenge was to develop a Pokemon api rest from a given 🐳 Docker container 🐳.
 
-# Problems faced in setting up the working environment
+# :speaker: Problems faced in setting up the working environment :speaker:
 
 To begin with, I will describe two problems I have found in the settings of working environment.
 
-## Deprecated PokeAPI/pokekotlin maven dependency
+## :alarm_clock: Deprecated PokeAPI/pokekotlin maven dependency :alarm_clock:
 
 After building Docker container, the Pokekotlin dependency of `pom.xml` was unable to find by maven. After research in google and ask a friend for help we found that the dependency was deprecated due to a security issue. So I had to update `pom.xml` with the latest Pokekotlin dependency available in GitHub.
 
@@ -29,11 +29,11 @@ Updated dependency:
 I had to modify `docker-compose.yml` because the default setting for postgres ports was `5432:5432` and it generated conflict with another local setting that I had previously configured. So I changed the settings in this project to `5437:5432`.
 For the same reason I had to set `server.port=8081` in `resources/application.properties`.
 
-# Approach to solution
+# 💡 Approach to solution 💡
 
 Secondly, I'll explain my approach to solution to the exercise. I have tried to take advantage as much as possible of dependencies provided in the initial package like lombok and jpa to reduce the verbosity of the code and to save me some work (like running sql queries).
 
-## Project Architectural Pattern
+## :house_with_garden: Project Architectural Pattern :house_with_garden:
 
 I have followed a Model-View-Controller pattern for the API. So I deleted the given `PokemonApi.java` and created several packages with their classes:
 - Application.java: contains the main method of our SpringBootApplication. If the DB is empty, it also initialises the data in the DB.
@@ -43,14 +43,14 @@ I have followed a Model-View-Controller pattern for the API. So I deleted the gi
 - Controller Package: to define our endpoints and controlling the user interaction with MVC application.
 - Configuration Package: to set some basic security requirements.
 
-## Database
+## 🔋 Database 🔋
 
-I access the provided PokeAPI to recover only the data I want/need and create a simple DB formed by one table with 1 primary key and 5 columns.
+I access the provided PokeAPI to recover only the data I want/need and create a simple DB formed by one table with 🆔 1 primary key 🆔 and 5 columns.
 The DB is filled with some data about Pokemon first gen. But only is created and filled if it is empty.
 If DB is empty, SpringBootApplication needs about 45 seconds to get started (in my laptop).
 If DB already exists, SpringBootApplication needs about 4 seconds to get started (in my laptop).
 
-## Security
+## :lock: Security :lock: 
 
 Each endpoint require basic authorization (except endpoint for top 3 heaviest Pokemon because the challenge required it) so I have set appropriately in `resources/application.properties`:
 ```
@@ -58,19 +58,19 @@ spring.security.user.name=wefox
 spring.security.user.password=1234
 ```
 
-# Possible improvements to implement:
+# 🔎 Possible improvements to implement 🔎
 
 Then, I'll indicate possible improvements to implement in my code.
 
-### Modify the create method to doesn't allow overwriting of existing data
+### 💾 Modify the create method to doesn't allow overwriting of existing data 💾
 The current `create` method of `PokemonRestController.java` not only insert new Pokemon into DB but also overwrites exiting data (if you choose an existing `id` for `RequestBody`). An improvement could be to assess whether data already exists and not to allow the insert if it exists.
 
 ### Implement unit testing
 The endpoints and methods have been tested via debug and manually so an improvement could be implementing unit tests. For example, using JUnit 5.
 
-# Wefox Java Challenge
+# ✏️ Wefox Java Challenge ✏️
 
->Finally, I have kept the original challenge statement below, and I post some images and code to show my results:
+>Finally, I have kept the original challenge statement ⬇️below⬇️, and I post some images and code to show my results:
 
 - This is a Spring Boot Application with all needed dependencies included in the POM file.
 - Feel free to change the project architecture or any relevant configuration.
@@ -117,7 +117,7 @@ web.ignoring().antMatchers("/api/v2/pokemon/heaviest");
 
 ![img.png](readme_resources/img_4_4.png)
 
-### Infrastructure
+### 💻 Infrastructure 💻
 
 The required infrastructure is already provided. All you need to do is to
 install [Docker Engine]("https://docs.docker.com/get-docker/") and to use docker-compose to start
@@ -128,3 +128,6 @@ containers in the background.
 
 For a more detailed information about docker-compose commands refer to the official
 documentation: [Overview of Docker Compose](https://docs.docker.com/compose/).
+
+
+🏆🎉 Thanks for the challenge! I enjoyed it and learned a lot! 🏆🎉
