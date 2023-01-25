@@ -14,6 +14,8 @@ public class PokemonServiceImplTest {
     @Autowired
     PokemonService pokemonService;
 
+    List<Pokemon> pokemonListTop3Heaviest = pokemonService.getPokemonHeaviest();
+
     List<Pokemon> pokemonHeaviestListExpected = Arrays.
             asList(new Pokemon(null,"snorlax",4600,null,null),
                     new Pokemon(null,"golem",3000,null,null),
@@ -21,16 +23,12 @@ public class PokemonServiceImplTest {
 
     @Test
     void pokemonHeaviestTop3NamesOk(){
-        List<Pokemon> pokemonListTop3Heaviest = pokemonService.getPokemonHeaviest();
-
-        assertEquals(pokemonHeaviestListExpected.stream().map(Pokemon::getName), pokemonListTop3Heaviest.stream().
-                map(Pokemon::getName));
+        assertEquals(pokemonHeaviestListExpected.stream().map(Pokemon::getName),
+                pokemonListTop3Heaviest.stream().map(Pokemon::getName));
     }
 
     @Test
     void pokemonHeaviestTop3WeightOrderOk(){
-        List<Pokemon> pokemonListTop3Heaviest = pokemonService.getPokemonHeaviest();
-
         assertEquals(pokemonHeaviestListExpected.stream().map(Pokemon::getWeight).sorted(Comparator.reverseOrder()),
                 pokemonListTop3Heaviest.stream().map(Pokemon::getWeight));
     }
