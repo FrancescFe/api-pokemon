@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,17 +14,25 @@ public class PokemonServiceImplTest {
     @Autowired
     PokemonService pokemonService;
 
+    List<Pokemon> pokemonHeaviestListExpected = Arrays.
+            asList(new Pokemon(null,"snorlax",4600,null,null),
+                    new Pokemon(null,"golem",3000,null,null),
+                    new Pokemon(null,"gyarados",2350,null,null));
+
     @Test
-    void pokemonHeaviestTop3(){
+    void pokemonHeaviestTop3NamesOk(){
         List<Pokemon> pokemonListTop3Heaviest = pokemonService.getPokemonHeaviest();
 
-        List<Pokemon> pokemonListExpected = Arrays.
-                asList(new Pokemon(null,"snorlax",null,null,null),
-                        new Pokemon(null,"golem",null,null,null),
-                        new Pokemon(null,"gyarados",null,null,null));
-
-        assertEquals(pokemonListExpected.stream().map(Pokemon::getName), pokemonListTop3Heaviest.stream().
+        assertEquals(pokemonHeaviestListExpected.stream().map(Pokemon::getName), pokemonListTop3Heaviest.stream().
                 map(Pokemon::getName));
+    }
+
+    @Test
+    void pokemonHeaviestTop3WeightOrderOk(){
+        List<Pokemon> pokemonListTop3Heaviest = pokemonService.getPokemonHeaviest();
+
+        assertEquals(pokemonHeaviestListExpected.stream().map(Pokemon::getWeight).sorted(Comparator.reverseOrder()),
+                pokemonListTop3Heaviest.stream().map(Pokemon::getWeight));
     }
 
 }
